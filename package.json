@@ -1,0 +1,8 @@
+{
+  "name": "figjs",
+  "version": "0.0.0",
+  "description": "front-end js framework",
+  "main": "index.js",
+  "author": "nikersify <nikersify@nikerino.com>",
+  "license": "MIT"
+}
