@@ -2,10 +2,18 @@
   "name": "figjs",
   "version": "0.0.0",
   "description": "front-end js framework",
-  "main": "index.js",
+  "main": "dist/Fig.js",
   "author": "nikersify <nikersify@nikerino.com>",
   "license": "MIT",
   "devDependencies": {
+    "rollup": "^0.43.0",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-watch": "^4.0.0",
     "tape": "^4.6.3"
+  },
+  "scripts": {
+    "build": "node build/build.js",
+	"dev": "rollup -w -c build/config.js"
   }
 }

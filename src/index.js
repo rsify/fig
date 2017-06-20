@@ -5,7 +5,7 @@ const DEFAULTS = {
 	debug: false
 }
 
-module.exports = (opts = DEFAULTS) => {
+export default (opts = DEFAULTS) => {
 	return new Fig(opts)
 }
 
