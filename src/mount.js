@@ -1,16 +1,19 @@
-module.exports = function ($el, componentName) {
+import logging from './internal/logger'
+
+const log = logging('mount')
+
+export default ($el, component) => {
 	if (typeof $el === 'string') $el = document.querySelector($el)
 	if (!$el) throw 'invalid element selector'
 
-	const component = this._components.get(componentName)
-	if (!component) throw 'invalid component name'
+	if (!component) throw 'specified component doesn\'t exist'
 
-	this._log.info('mount', 'attempting to mount component', component.name,
-		'at element', $el)
+	log.info('attempting to mount component', component.name, 'at element', $el)
 
-	this._$root = document.createElement(componentName)
-	$el.parentNode.replaceChild(this._$root, $el)
+	const $root = document.createElement(component.name)
+	$el.parentNode.replaceChild($root, $el)
 
-	this._log.success('mount', 'mounted app to', this._$root)
-	this.update()
+	log.success('mount', 'mounted app to', $root)
+
+	return $root
 }

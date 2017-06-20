@@ -1,6 +1,9 @@
-const genId = require('./genId')
+import genId from './genId'
+import logging from './logger'
 
-function walk (element, refs, subtree) {
+const log = logging('render')
+
+function walk (element, components, refs, subtree, bus) {
 	for (const child of element.children) {
 		const childName = child.nodeName.toLowerCase()
 		const attrs = {}
@@ -31,9 +34,9 @@ function walk (element, refs, subtree) {
 			}
 		}
 
-		if (this._components.has(childName)) {
-			subtree.children.push(this._render(child, attrs))
-		} else walk.call(this, child, refs, subtree)
+		if (components.has(childName)) {
+			subtree.children.push(render(child, attrs, components, bus))
+		} else walk(child, components, refs, subtree, bus)
 	}
 }
 
@@ -49,11 +52,11 @@ const ref = (prop) => {
 	return id
 }
 
-module.exports = function (element, opts) {
-	this._log.info('render', 'rendering', element, 'with opts', opts)
+const render = (element, opts, components, bus) => {
+	log.info('rendering', element, 'with opts', opts)
 
 	const name = element.nodeName.toLowerCase()
-	const component = this._components.get(name)
+	const component = components.get(name)
 
 	const subtree = {}
 	subtree.name = name
@@ -61,7 +64,7 @@ module.exports = function (element, opts) {
 	subtree.children = []
 
 	const view = {}
-	component.script.call(element, view, opts, this._bus)
+	component.script.call(element, view, opts, bus)
 
 	const refs = {}
 	const walkRef = (o) => {
@@ -85,7 +88,9 @@ module.exports = function (element, opts) {
 
 	element.innerHTML = component.template(view)
 
-	walk.call(this, element, refs, subtree)
+	walk(element, components, refs, subtree, bus)
 
 	return subtree
 }
+
+export default render

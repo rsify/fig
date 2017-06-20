@@ -69,4 +69,4 @@ Bus.prototype.emit = function (domain, payload) {
 	return this
 }
 
-module.exports = Bus
+export default Bus

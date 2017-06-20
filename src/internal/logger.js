@@ -17,7 +17,7 @@ for (const level in levels) {
 	Logger.prototype[level] = (scope, ...msg) => log(scope, hex, ...msg)
 }
 
-module.exports = (enabled) => {
+export default enabled => {
 	if (!enabled) return () => {}
 	return new Logger()
 }

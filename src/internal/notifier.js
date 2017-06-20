@@ -1,4 +1,4 @@
-const set = (obj, prop, notify) => {
+const watch = (obj, prop, notify) => {
 	const o = obj[prop]
 
 	walk(o, notify)
@@ -85,6 +85,6 @@ const defineWatchedProp = (obj, prop, notify) => {
 	})
 }
 
-module.exports = {
-	set
+export {
+	watch
 }

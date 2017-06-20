@@ -1,41 +1,58 @@
-const Emitter = require('./internal/emitter')
-const notifier = require('./internal/notifier')
+import Emitter from './internal/emitter'
+import logging from './internal/logger'
+import mount from './mount'
+import { watch } from './internal/notifier'
+import update from './update'
+import use from './use'
+
+const log = logging('app')
 
 const DEFAULTS = {
 	debug: false
 }
 
-export default (opts = DEFAULTS) => {
+const constructor = (opts = DEFAULTS) => {
 	return new Fig(opts)
 }
 
-function Fig (opts) {
-	this.opts = opts
+class Fig {
+	constructor (opts) {
+		this.opts = opts
 
-	this._log = require('./internal/logger')(opts.debug)
+		logging.enabled = opts.debug
 
-	this._log.info('app', 'initializing with config', opts)
+		log.info('initializing with config', opts)
 
-	this.state = {}
-	notifier.set(this, 'state', () => {
-		this._log.info('watcher', 'state changes detected, updating...')
-		this.update()
-	})
+		this.state = {}
+		watch(this, 'state', () => {
+			logging('notifier').info('state changes detected, updating...')
+			this._tree = update(this._$root, this.state,
+				this._components, this._bus)
+		})
 
-	this._render = require('./internal/render')
-	this._components = new Map()
-	this._tree = null
+		this._components = new Map()
+		this._tree = null
 
-	this._bus = new Emitter()
-	this.on = this._bus.on.bind(this._bus)
-	this.off = this._bus.off.bind(this._bus)
-	this.once = this._bus.once.bind(this._bus)
-	this.emit = this._bus.emit.bind(this._bus)
+		this._bus = new Emitter()
+		this.on = this._bus.on.bind(this._bus)
+		this.off = this._bus.off.bind(this._bus)
+		this.once = this._bus.once.bind(this._bus)
+		this.emit = this._bus.emit.bind(this._bus)
+	}
+
+	mount ($el, name) {
+		this._$root = mount($el, this._components.get(name))
+
+		update(this._$root, this.state, this._components, this._bus)
+	}
+
+	update () {
+		update(this._$root, this.state, this._components, this._bus)
+	}
+
+	use (comp) {
+		use(comp, this._components)
+	}
 }
 
-Fig.prototype.mount = require('./mount')
-Fig.prototype.set = notifier.set
-Fig.prototype.update = require('./update')
-Fig.prototype.use = require('./use')
-
-module.exports.Emitter = Emitter
+export default constructor

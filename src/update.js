@@ -1,4 +1,6 @@
-module.exports = function () {
-	if (this._$root)
-		this._tree = this._render(this._$root, this.state)
+import render from './internal/render'
+
+export default ($root, state, components, bus) => {
+	if ($root) return render($root, state, components, bus)
+	return null
 }

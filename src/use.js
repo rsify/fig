@@ -1,9 +1,9 @@
-module.exports = function (comp) {
+export default (comp, registry) => {
 	if (!Array.isArray(comp)) comp = [comp]
 
 	for (const component of comp) {
 		// skip if already registered
-		if (this._components.has(component.name))
+		if (registry.has(component.name))
 			throw 'component already registered'
 
 		const name = component.name
@@ -22,7 +22,7 @@ module.exports = function (comp) {
 		const s = component.name + ' {display: inline-block;} ' + style
 		$style.innerText = $style.innerText + s
 
-		this._components.set(component.name, {
+		registry.set(component.name, {
 			name,
 			template,
 			style,
