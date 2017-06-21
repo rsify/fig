@@ -1,9 +1,9 @@
-import genId from './genId'
+import { randString, walk } from './util'
 import logging from './logger'
 
 const log = logging('render')
 
-function walk (element, components, refs, subtree, bus) {
+function walkElements (element, components, refs, subtree, bus) {
 	for (const child of element.children) {
 		const childName = child.nodeName.toLowerCase()
 		const attrs = {}
@@ -36,12 +36,12 @@ function walk (element, components, refs, subtree, bus) {
 
 		if (components.has(childName)) {
 			subtree.children.push(render(child, attrs, components, bus))
-		} else walk(child, components, refs, subtree, bus)
+		} else walkElements(child, components, refs, subtree, bus)
 	}
 }
 
-const ref = (prop) => {
-	const id = genId()
+const ref = prop => {
+	const id = randString(10)
 
 	Object.defineProperty(prop, 'toJSON', {
 		configurable: true,
@@ -67,28 +67,20 @@ const render = (element, opts, components, bus) => {
 	component.script.call(element, view, opts, bus)
 
 	const refs = {}
-	const walkRef = (o) => {
+	walk(o => {
 		for (const key in o) {
 			if (o.hasOwnProperty(key)) {
 				const prop = o[key]
 				if (['function', 'object'].indexOf(typeof prop) !== -1) {
 					const id = ref(prop)
-
 					refs[id] = prop
-				}
-
-				if (typeof prop === 'object'){
-					walkRef(prop)
 				}
 			}
 		}
-	}
-
-	walkRef(view)
+	}, view)
 
 	element.innerHTML = component.template(view)
-
-	walk(element, components, refs, subtree, bus)
+	walkElements(element, components, refs, subtree, bus)
 
 	return subtree
 }

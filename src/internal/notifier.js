@@ -1,7 +1,9 @@
+import { walk } from './util'
+
 const watch = (obj, prop, notify) => {
 	const o = obj[prop]
 
-	walk(o, notify, visit)
+	walk(visit, o, notify)
 	defineWatchedProp(obj, prop, notify)
 }
 
@@ -10,23 +12,6 @@ const WATCHED_NAME = '__fig-watched__'
 // mutating array prototype methods
 const MUTATING = ['copyWithin', 'fill', 'pop', 'push',
 	'reverse', 'shift', 'sort', 'splice', 'unshift']
-
-const walk = (o, notify, visitor) => {
-	if (typeof o === 'object') {
-
-		visitor(o, notify)
-
-		// walk recursively downwards
-		for (const key in o) {
-			if (o.hasOwnProperty(key)) {
-				const val = o[key]
-				if (typeof val === 'object') {
-					walk(val, notify, visitor)
-				}
-			}
-		}
-	}
-}
 
 const visit = (o, notify) => {
 	if (!o[WATCHED_NAME]) {
@@ -63,7 +48,7 @@ const visit = (o, notify) => {
 const wrapFactory = (that, fn, notify) => {
 	return function FigWrap () {
 		const res = fn.apply(that, arguments)
-		walk(that, notify, visit)
+		walk(visit, that, notify)
 		notify()
 		return res
 	}
@@ -82,7 +67,7 @@ const defineWatchedProp = (obj, prop, notify) => {
 	Object.defineProperty(obj, prop, {
 		set: o => {
 			v = o
-			walk(v, notify, visit)
+			walk(visit, v, notify)
 			notify()
 		},
 		get: () => {

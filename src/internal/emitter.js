@@ -1,20 +1,4 @@
-// parse wildcard domains
-function wildMatch (name, domain) {
-	const str = domain.split('').map(x => {
-		if (x === '*') return '.*'
-		const code = x.charCodeAt(0)
-		let hex = code.toString(16)
-
-		// pad to 4 digits
-		let i = 4 - hex.length
-		while (i--) hex = '0' + hex
-
-		return '\\u' + hex
-	}).join('')
-
-	const re = new RegExp(str)
-	return re.test(name)
-}
+import { wildcard } from './util'
 
 function Bus () {
 	if (!(this instanceof Bus)) return new Bus()
@@ -36,7 +20,7 @@ Bus.prototype.off = function (domain, fn) {
 	if (!domain) return this
 
 	const candidates = this.listeners
-		.filter(l => wildMatch(domain, l.domain))
+		.filter(l => wildcard(domain, l.domain))
 		.filter(l => fn ? l.fn === fn : true)
 
 	for (const c of candidates)
@@ -61,7 +45,7 @@ Bus.prototype.emit = function (domain, payload) {
 	if (!domain) return this
 
 	const candidates = this.listeners
-		.filter(l => wildMatch(domain, l.domain))
+		.filter(l => wildcard(domain, l.domain))
 
 	for (const c of candidates)
 		c.fn(payload)

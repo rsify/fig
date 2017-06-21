@@ -25,9 +25,11 @@ class Fig {
 
 		this.state = {}
 		watch(this, 'state', () => {
-			logging('notifier').info('state changes detected, updating...')
-			this._tree = update(this._$root, this.state,
-				this._components, this._bus)
+			if (this._$root) {
+				logging('notifier').info('state changes detected, updating...')
+				this._tree = update(this._$root, this.state,
+					this._components, this._bus)
+				}
 		})
 
 		this._components = new Map()

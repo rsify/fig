@@ -1,3 +1,5 @@
+import { noop } from './util'
+
 const log = (scope, color, ...msg) => {
 	console.log(`%cfig ${scope}`,
 		`font-weight: bold; color: ${color}`, ...msg)
@@ -18,6 +20,6 @@ for (const level in levels) {
 }
 
 export default enabled => {
-	if (!enabled) return () => {}
+	if (!enabled) return noop
 	return new Logger()
 }
