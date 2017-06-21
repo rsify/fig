@@ -1,37 +1,34 @@
-const Emitter = require('../../lib/internal/emitter')
-const test = require('tape')
+import test from 'ava'
+
+import Emitter from '../../src/internal/emitter'
 
 test('returns this on all methods', t => {
 	const e = new Emitter()
 
-	t.equal(e, e.on(), '.on')
-	t.equal(e, e.off(), '.off')
-	t.equal(e, e.once(), '.once')
-	t.equal(e, e.emit(), '.emit')
-
-	t.end()
+	t.is(e, e.on(), '.on')
+	t.is(e, e.off(), '.off')
+	t.is(e, e.once(), '.once')
+	t.is(e, e.emit(), '.emit')
 })
 
 test('registers listeners', t => {
 	const e = new Emitter()
 
 	e.on('one', () => {})
-	t.equal(e.listeners.length, 1, 'registers a listener')
+	t.is(e.listeners.length, 1, 'registers a listener')
 
 	e.on('two', () => {})
 	e.on('two', () => {})
-	t.equal(e.listeners.length, 3, 'two listeners on one domain')
+	t.is(e.listeners.length, 3, 'two listeners on one domain')
 
 	e.off('two')
-	t.equal(e.listeners.length, 1, 'removes all listeners by name')
+	t.is(e.listeners.length, 1, 'removes all listeners by name')
 
 	const f = () => {}
 	e.on('one', f)
 	e.on('one', f)
 	e.off('one', f)
-	t.equal(e.listeners.length, 1, 'removes listeners by name & fn')
-
-	t.end()
+	t.is(e.listeners.length, 1, 'removes listeners by name & fn')
 })
 
 test('emits events', t => {
@@ -48,11 +45,11 @@ test('emits events', t => {
 	e.on('two', two)
 	e.on('two', two)
 	e.emit('two')
-	t.equal(i, 3, 'emits to multiple listeners on same domain')
+	t.is(i, 3, 'emits to multiple listeners on same domain')
 
 	const obj = { foo: 'bar' }
 	e.on('three', (p) => {
-		t.ok(p === obj, 'retains reference to object in listener')
+		t.is(p, obj, 'retains reference to object in listener')
 	})
 	e.emit('three', obj)
 
@@ -61,68 +58,58 @@ test('emits events', t => {
 	e.emit('four')
 	e.emit('four')
 	e.emit('four')
-	t.equal(j, 1, 'once listens only once and unregisters')
-
-	t.end()
+	t.is(j, 1, 'once listens only once and unregisters')
 })
 
 test('wildcard domain', t => {
-	t.test('*', t => {
+	;(() => {
 		const e = new Emitter()
 		let i = 0
 		e.on('*', () => i++)
 
 		e.emit('text')
-		t.equal(i, 1, 'text')
+		t.is(i, 1, 'text')
 
 		e.emit('cool-text')
-		t.equal(i, 2, 'cool-text')
+		t.is(i, 2, 'cool-text')
+	})()
 
-		t.end()
-	})
-
-	t.test('a*b*c', t => {
+	;(() => {
 		const e = new Emitter()
 		let i = 0
 		e.on('a*b*c', () => i++)
 
 		e.emit('abc')
-		t.equal(i, 1, 'abc')
+		t.is(i, 1, 'abc')
 
 		e.emit('ac')
-		t.equal(i, 1, 'ac')
+		t.is(i, 1, 'ac')
 
 		e.emit('abetac')
-		t.equal(i, 2, 'abetac')
+		t.is(i, 2, 'abetac')
 
 		e.emit('alulbec')
-		t.equal(i, 3, 'alulbec')
+		t.is(i, 3, 'alulbec')
+	})()
 
-		t.end()
-	})
-
-	t.test('*huh*', t => {
+	;(() => {
 		const e = new Emitter()
 		let i = 0
 		e.on('*huh*', () => i++)
 
 		e.emit('huh', () => i++)
-		t.equal(i, 1, 'huh')
+		t.is(i, 1, 'huh')
 
 		e.emit('phuh')
-		t.equal(i, 2, 'phuh')
+		t.is(i, 2, 'phuh')
 
 		e.emit('huhp')
-		t.equal(i, 3, 'huhp')
+		t.is(i, 3, 'huhp')
 
 		e.emit('phuhp')
-		t.equal(i, 4, 'phuhp')
+		t.is(i, 4, 'phuhp')
 
 		e.emit('puup')
-		t.equal(i, 4, 'puup')
-
-		t.end()
-	})
-
-	t.end()
+		t.is(i, 4, 'puup')
+	})()
 })

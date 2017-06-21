@@ -6,14 +6,22 @@
   "author": "nikersify <nikersify@nikerino.com>",
   "license": "MIT",
   "devDependencies": {
+    "ava": "^0.19.1",
     "big-eye": "^0.0.2",
     "rollup": "^0.43.0",
     "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "tape": "^4.6.3"
+    "rollup-plugin-node-resolve": "^3.0.0"
   },
   "scripts": {
     "build": "node build/build.js",
-    "dev": "big-eye 'rollup -c build/config.js' -w src/"
+    "dev": "big-eye 'rollup -c build/config.js' -w src/",
+    "test": "ava",
+    "test:watch": "ava --watch"
+  },
+  "ava": {
+    "require": ["babel-register"]
+  },
+  "babel": {
+    "presets": ["@ava/stage-4"]
   }
 }
