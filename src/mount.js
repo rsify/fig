@@ -13,7 +13,7 @@ export default ($el, component) => {
 	const $root = document.createElement(component.name)
 	$el.parentNode.replaceChild($root, $el)
 
-	log.success('mount', 'mounted app to', $root)
+	log.success('replaced', $el, 'with' , $root)
 
 	return $root
 }

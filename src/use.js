@@ -1,3 +1,7 @@
+import logging from './internal/logger'
+
+const log = logging('use')
+
 export default (comp, registry) => {
 	if (!Array.isArray(comp)) comp = [comp]
 
@@ -28,5 +32,7 @@ export default (comp, registry) => {
 			style,
 			script
 		})
+
+		log.success('registered component', component.name)
 	}
 }

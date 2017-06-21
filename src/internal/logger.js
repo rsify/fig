@@ -5,7 +5,9 @@ const log = (scope, color, ...msg) => {
 		`font-weight: bold; color: ${color}`, ...msg)
 }
 
-function Logger () {}
+function Logger (scope) {
+	this.scope = scope
+}
 
 const levels = {
 	'success': '#11cc00',
@@ -16,10 +18,15 @@ const levels = {
 
 for (const level in levels) {
 	const hex = levels[level]
-	Logger.prototype[level] = (scope, ...msg) => log(scope, hex, ...msg)
+	Logger.prototype[level] = function (...msg) {
+		if (constructor.enabled)
+			log(this.scope, hex, ...msg)
+	}
 }
 
-export default enabled => {
-	if (!enabled) return noop
-	return new Logger()
+const constructor = scope => {
+	return new Logger(scope)
 }
+constructor.enabled = true
+
+export default constructor
