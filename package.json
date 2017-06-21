@@ -6,14 +6,14 @@
   "author": "nikersify <nikersify@nikerino.com>",
   "license": "MIT",
   "devDependencies": {
+    "big-eye": "^0.0.2",
     "rollup": "^0.43.0",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-watch": "^4.0.0",
     "tape": "^4.6.3"
   },
   "scripts": {
     "build": "node build/build.js",
-    "dev": "rollup -w -c build/config.js"
+    "dev": "big-eye 'rollup -c build/config.js' -w src/"
   }
 }
