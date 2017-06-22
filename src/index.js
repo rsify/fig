@@ -42,11 +42,11 @@ class Fig {
 		this.once = this._bus.once.bind(this._bus)
 		this.emit = this._bus.emit.bind(this._bus)
 
-		this.chain = new Chain()
+		this._chain = new Chain()
 	}
 
 	mount ($el, name) {
-		this.chain.defer(() => {
+		this._chain.defer(() => {
 			this._$root = mount($el, this._components.get(name))
 
 			update(this._$root, this.state, this._components, this._bus)
@@ -54,13 +54,13 @@ class Fig {
 	}
 
 	update () {
-		this.chain.defer(() => {
+		this._chain.defer(() => {
 			update(this._$root, this.state, this._components, this._bus)
 		})
 	}
 
 	use (comp) {
-		this.chain.defer(async () => {
+		this._chain.defer(async () => {
 			return await use(comp, this._components)
 		})
 	}
