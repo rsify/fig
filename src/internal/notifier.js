@@ -76,6 +76,4 @@ const defineWatchedProp = (obj, prop, notify) => {
 	})
 }
 
-export {
-	watch
-}
+export default watch

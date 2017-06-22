@@ -1,3 +1,8 @@
+// per https://www.ecma-international.org/ecma-262/6.0/#sec-promise.resolve
+const isPromise = x => {
+	return Promise.resolve(x) === x
+}
+
 // for js optimization
 const noop = () => {}
 
@@ -47,6 +52,7 @@ const wildcard = (name, domain) => {
 }
 
 export {
+	isPromise,
 	noop,
 	randString,
 	walk,

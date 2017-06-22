@@ -2,13 +2,13 @@ import logging from './internal/logger'
 
 const log = logging('use')
 
-export default (comp, registry) => {
+export default async (comp, registry) => {
 	if (!Array.isArray(comp)) comp = [comp]
 
 	for (const component of comp) {
 		// skip if already registered
 		if (registry.has(component.name))
-			throw 'component already registered'
+			throw `component already registered (${component.name})`
 
 		const name = component.name
 		const template = component.template
