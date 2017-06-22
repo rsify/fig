@@ -7,7 +7,7 @@ const isPromise = x => {
 const noop = () => {}
 
 // generate a random string of set length
-const randString = length => {
+const randString = (length = 8) => {
 	let res = ''
 	while (res.length < length) {
 		res = res + Math.random().toString(36).slice(2)
