@@ -4,7 +4,8 @@ import {
 	isPromise,
 	noop,
 	randString,
-	walk
+	walk,
+	wildcard
 } from '../../src/internal/util'
 
 test('isPromise', t => {
@@ -15,6 +16,10 @@ test('isPromise', t => {
 	}))
 	t.false(isPromise(null))
 	t.false(isPromise(42))
+})
+
+test('noop', t => {
+	t.notThrows(noop.bind(null, 'hue'), 'does nothing')
 })
 
 test('randString', t => {
@@ -68,6 +73,11 @@ test('walk', t => {
 	t.deepEqual(input, output)
 })
 
-test('noop', t => {
-	t.notThrows(noop.bind(null, 'hue'), 'does nothing')
+test('wildcard', t => {
+	t.true(wildcard('ping-pong', 'ping-*'))
+	t.true(wildcard('ping-kong', 'ping-*'))
+	t.false(wildcard('ding-dong', 'ping-*'))
+	t.false(wildcard('ping', 'ping-*'))
+
+	// see ./emitter.test.js for more
 })
