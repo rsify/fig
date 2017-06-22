@@ -1,12 +1,8 @@
 import { noop } from './util'
 
-const log = (scope, color, ...msg) => {
-	console.log(`%cfig ${scope}`,
-		`font-weight: bold; color: ${color}`, ...msg)
-}
-
-function Logger (scope) {
+function Logger (scope, fn) {
 	this.scope = scope
+	this.fn = fn
 }
 
 const levels = {
@@ -20,12 +16,13 @@ for (const level in levels) {
 	const hex = levels[level]
 	Logger.prototype[level] = function (...msg) {
 		if (constructor.enabled)
-			log(this.scope, hex, ...msg)
+			this.fn(`%cfig ${this.scope}`,
+				`font-weight: bold; color: ${hex}`, ...msg)
 	}
 }
 
-const constructor = scope => {
-	return new Logger(scope)
+const constructor = (scope, fn = console.log) => {
+	return new Logger(scope, fn)
 }
 constructor.enabled = true
 
