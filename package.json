@@ -2,26 +2,36 @@
   "name": "figjs",
   "version": "0.0.0",
   "description": "front-end js framework",
-  "main": "dist/Fig.js",
+  "main": "dist/fig.js",
   "author": "nikersify <nikersify@nikerino.com>",
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.19.1",
+    "babel-core": "^6.25.0",
+    "babel-preset-env": "^1.5.2",
     "big-eye": "^0.0.2",
+    "listr": "^0.12.0",
+    "regenerator-runtime": "^0.10.5",
     "rollup": "^0.43.0",
     "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "uglify-js": "^3.0.19"
   },
   "scripts": {
     "build": "node build/build.js",
-    "dev": "big-eye 'rollup -c build/config.js' -w src/",
+    "build:watch": "big-eye 'npm run build' -w src/",
     "test": "ava",
     "test:watch": "ava --watch"
   },
   "ava": {
-    "require": ["babel-register"]
+    "require": [
+      "babel-register"
+    ]
   },
   "babel": {
-    "presets": ["@ava/stage-4"]
-  }
+    "presets": [
+      "@ava/stage-4"
+    ]
+  },
+  "dependencies": {}
 }
