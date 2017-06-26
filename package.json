@@ -35,7 +35,10 @@
   },
   "xo": {
     "semicolon": false,
-    "envs": ["browser"]
+    "envs": ["browser"],
+	"rules": {
+		"max-len": ["error", 80]
+	}
   },
   "dependencies": {}
 }
