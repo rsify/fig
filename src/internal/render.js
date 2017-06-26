@@ -1,6 +1,10 @@
 /* eslint no-use-before-define: "off" */
 
-import {randString, walk} from './util'
+import {
+	hasOwnProperty,
+	randString,
+	walk
+} from './util'
 import logging from './logger'
 
 const log = logging('render')
@@ -79,7 +83,7 @@ const render = (element, opts, components, bus) => {
 	const refs = {}
 	walk(o => {
 		for (const key in o) {
-			if (Object.prototype.hasOwnProperty.call(o, key)) {
+			if (hasOwnProperty(o, key)) {
 				const prop = o[key]
 				if (['function', 'object'].indexOf(typeof prop) !== -1) {
 					const id = ref(prop)

@@ -1,3 +1,8 @@
+// Handy shorthand
+const hasOwnProperty = (o, key) => {
+	return Object.prototype.hasOwnProperty.call(o, key)
+}
+
 // Per https://www.ecma-international.org/ecma-262/6.0/#sec-promise.resolve
 const isPromise = x => {
 	return Promise.resolve(x) === x
@@ -21,7 +26,7 @@ const walk = (visitor, o, ...args) => {
 		visitor(o, ...args)
 
 		for (const key in o) {
-			if (Object.prototype.hasOwnProperty.call(o, key)) {
+			if (hasOwnProperty(o, key)) {
 				const val = o[key]
 				if (typeof val === 'object') {
 					walk(visitor, val, ...args)
@@ -56,6 +61,7 @@ const wildcard = (name, domain) => {
 }
 
 export {
+	hasOwnProperty,
 	isPromise,
 	noop,
 	randString,

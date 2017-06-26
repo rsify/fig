@@ -1,12 +1,18 @@
 import test from 'ava'
 
 import {
+	hasOwnProperty,
 	isPromise,
 	noop,
 	randString,
 	walk,
 	wildcard
 } from '../../src/internal/util'
+
+test('hasOwnProperty', t => {
+	t.true(hasOwnProperty({foo: 'bar'}, 'foo'))
+	t.false(hasOwnProperty({bar: 'foo'}, 'foo'))
+})
 
 test('isPromise', t => {
 	t.true(isPromise(new Promise(() => {})))

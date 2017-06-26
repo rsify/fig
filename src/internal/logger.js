@@ -1,3 +1,5 @@
+import {hasOwnProperty} from './util'
+
 function Logger(scope, fn) {
 	this.scope = scope
 	this.fn = fn
@@ -15,7 +17,7 @@ const constructor = (scope, fn = console.log) => {
 }
 
 for (const level in levels) {
-	if (Object.prototype.hasOwnProperty.call(levels, level)) {
+	if (hasOwnProperty(levels, level)) {
 		const hex = levels[level]
 		Logger.prototype[level] = function (...msg) {
 			if (constructor.enabled) {
