@@ -34,8 +34,8 @@
     ]
   },
   "xo": {
-	  "semicolon": false,
-	  "envs": ["browser"]
+    "semicolon": false,
+    "envs": ["browser"]
   },
   "dependencies": {}
 }
