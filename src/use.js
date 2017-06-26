@@ -3,12 +3,15 @@ import logging from './internal/logger'
 const log = logging('use')
 
 export default async (comp, registry) => {
-	if (!Array.isArray(comp)) comp = [comp]
+	if (!Array.isArray(comp)) {
+		comp = [comp]
+	}
 
 	for (const component of comp) {
-		// skip if already registered
-		if (registry.has(component.name))
-			throw `component already registered (${component.name})`
+		// Skip if already registered
+		if (registry.has(component.name)) {
+			throw new Error(`component already registered (${component.name})`)
+		}
 
 		const name = component.name
 		const template = component.template
@@ -22,9 +25,9 @@ export default async (comp, registry) => {
 			document.getElementsByTagName('head')[0].append($style)
 		}
 
-		// default display style
+		// Default display style
 		const s = component.name + ' {display: inline-block;} ' + style
-		$style.innerText = $style.innerText + s
+		$style.innerText += s
 
 		registry.set(component.name, {
 			name,

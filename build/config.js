@@ -1,8 +1,7 @@
 const commonjs = require('rollup-plugin-commonjs')
-const fs = require('fs')
-const path = require('path')
-const pkg = require('../package.json')
 const resolve = require('rollup-plugin-node-resolve')
+
+const pkg = require('../package.json')
 
 const banner = `
 // fig.js v${pkg.version}

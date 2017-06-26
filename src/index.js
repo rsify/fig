@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unassigned-import
 import 'regenerator-runtime/runtime'
 
 import Chain from './internal/chain'
@@ -14,12 +15,8 @@ const DEFAULTS = {
 	debug: false
 }
 
-const constructor = (opts = DEFAULTS) => {
-	return new Fig(opts)
-}
-
 class Fig {
-	constructor (opts) {
+	constructor(opts) {
 		this.opts = opts
 
 		logging.enabled = opts.debug
@@ -32,7 +29,7 @@ class Fig {
 				logging('notifier').info('state changes detected, updating...')
 				this._tree = update(this._$root, this.state,
 					this._components, this._bus)
-				}
+			}
 		})
 
 		this._components = new Map()
@@ -47,7 +44,7 @@ class Fig {
 		this._chain = new Chain()
 	}
 
-	mount ($el, name) {
+	mount($el, name) {
 		this._chain.defer(() => {
 			this._$root = mount($el, this._components.get(name))
 
@@ -55,17 +52,21 @@ class Fig {
 		})
 	}
 
-	update () {
+	update() {
 		this._chain.defer(() => {
 			update(this._$root, this.state, this._components, this._bus)
 		})
 	}
 
-	use (comp) {
+	use(comp) {
 		this._chain.defer(async () => {
-			return await use(comp, this._components)
+			return use(comp, this._components)
 		})
 	}
+}
+
+const constructor = (opts = DEFAULTS) => {
+	return new Fig(opts)
 }
 
 export default constructor

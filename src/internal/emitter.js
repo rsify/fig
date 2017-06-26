@@ -1,14 +1,19 @@
-import { wildcard } from './util'
+import {wildcard} from './util'
 
-function Bus () {
-	if (!(this instanceof Bus)) return new Bus()
+function Bus() {
+	if (!(this instanceof Bus)) {
+		return new Bus()
+	}
 
 	this.listeners = []
 	return this
 }
 
 Bus.prototype.on = function (domain, fn) {
-	if (!domain || !fn) return this
+	if (!domain || !fn) {
+		return this
+	}
+
 	this.listeners.push({
 		domain, fn
 	})
@@ -17,20 +22,25 @@ Bus.prototype.on = function (domain, fn) {
 }
 
 Bus.prototype.off = function (domain, fn) {
-	if (!domain) return this
+	if (!domain) {
+		return this
+	}
 
 	const candidates = this.listeners
 		.filter(l => wildcard(domain, l.domain))
 		.filter(l => fn ? l.fn === fn : true)
 
-	for (const c of candidates)
+	for (const c of candidates)		{
 		this.listeners.splice(this.listeners.indexOf(c), 1)
+	}
 
 	return this
 }
 
 Bus.prototype.once = function (domain, fn) {
-	if (!domain || !fn) return this
+	if (!domain || !fn) {
+		return this
+	}
 
 	const tmp = () => {
 		fn()
@@ -42,13 +52,16 @@ Bus.prototype.once = function (domain, fn) {
 }
 
 Bus.prototype.emit = function (domain, payload) {
-	if (!domain) return this
+	if (!domain) {
+		return this
+	}
 
 	const candidates = this.listeners
 		.filter(l => wildcard(domain, l.domain))
 
-	for (const c of candidates)
+	for (const c of candidates) {
 		c.fn(payload)
+	}
 
 	return this
 }

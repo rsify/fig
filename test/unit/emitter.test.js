@@ -47,8 +47,8 @@ test('emits events', t => {
 	e.emit('two')
 	t.is(i, 3, 'emits to multiple listeners on same domain')
 
-	const obj = { foo: 'bar' }
-	e.on('three', (p) => {
+	const obj = {foo: 'bar'}
+	e.on('three', p => {
 		t.is(p, obj, 'retains reference to object in listener')
 	})
 	e.emit('three', obj)
@@ -62,7 +62,7 @@ test('emits events', t => {
 })
 
 test('wildcard domain', t => {
-	;(() => {
+	(() => {
 		const e = new Emitter()
 		let i = 0
 		e.on('*', () => i++)

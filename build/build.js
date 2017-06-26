@@ -1,39 +1,40 @@
-const Listr = require('listr')
-const babel = require('babel-core')
-const config = require('./config')
 const fs = require('fs')
 const p = require('util').promisify
-const path = require('path')
+
+const Listr = require('listr')
+const babel = require('babel-core')
 const rollup = require('rollup')
 const uglify = require('uglify-js')
 
-// dirty way to update the listr task list
-const immediate = () => new Promise(res => {
-	setTimeout(res, 0)
+const config = require('./config')
+
+// Dirty way to update the listr task list
+const immediate = () => new Promise(resolve => {
+	setTimeout(resolve, 0)
 })
 
 const tasks = new Listr([
 	{
 		title: 'Rollup dependencies',
-		task: async (ctx, task) => {
+		task: async ctx => {
 			ctx.bundle = await rollup.rollup(config)
 			await immediate()
 		}
 	},
 	{
 		title: 'Generate code',
-		task: async (ctx) => {
+		task: async ctx => {
 			ctx.code = ctx.bundle.generate(config).code
 			await immediate()
 		}
 	},
 	{
 		title: 'Babel',
-		task: async (ctx) => {
+		task: async ctx => {
 			ctx.babelled = babel.transform(ctx.code, {
 				babelrc: false,
 				presets: [
-					['env', { target: '> 0.25%', modules: false }]
+					['env', {target: '> 0.25%', modules: false}]
 				]
 			}).code
 			await immediate()
@@ -41,9 +42,11 @@ const tasks = new Listr([
 	},
 	{
 		title: 'Uglify',
-		task: async (ctx) => {
+		task: async ctx => {
 			const ugly = uglify.minify(ctx.babelled)
-			if (ugly.error) throw ugly.error
+			if (ugly.error) {
+				throw ugly.error
+			}
 			ctx.uglified = ugly.code
 			await immediate()
 		}
@@ -51,8 +54,9 @@ const tasks = new Listr([
 	{
 		title: 'Write',
 		task: async (ctx, task) => {
-			if (!await p(fs.stat)('../dist'))
+			if (!await p(fs.stat)('../dist')) {
 				await p(fs.mkdir)('../dist')
+			}
 
 			await p(fs.writeFile)(config.dest, ctx.babelled)
 			await p(fs.writeFile)(config.dest

@@ -20,7 +20,7 @@
   "scripts": {
     "build": "node build/build.js",
     "build:watch": "big-eye 'npm run build' -w src/",
-    "test": "ava",
+    "test": "xo && ava",
     "test:watch": "ava --watch"
   },
   "ava": {
@@ -32,6 +32,10 @@
     "presets": [
       "@ava/stage-4"
     ]
+  },
+  "xo": {
+	  "semicolon": false,
+	  "envs": ["browser"]
   },
   "dependencies": {}
 }

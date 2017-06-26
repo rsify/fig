@@ -58,12 +58,14 @@ test('walk', t => {
 	}
 
 	const visitor = (o, arg1, arg2, arg3) => {
-		if ([arg1, arg2, arg3].join(' ') !== 'this is patrick')
-			throw 'arguments not being passed to visitor'
+		if ([arg1, arg2, arg3].join(' ') !== 'this is patrick') {
+			throw new Error('arguments not being passed to visitor')
+		}
 
 		for (const key in o) {
-			if (o.hasOwnProperty(key) && typeof o[key] === 'number') {
-				o[key] = o[key] * 2
+			if (Object.prototype.hasOwnProperty.call(o, key) &&
+				typeof o[key] === 'number') {
+				o[key] *= 2
 			}
 		}
 	}
@@ -79,5 +81,5 @@ test('wildcard', t => {
 	t.false(wildcard('ding-dong', 'ping-*'))
 	t.false(wildcard('ping', 'ping-*'))
 
-	// see ./emitter.test.js for more
+	// See ./emitter.test.js for more
 })

@@ -1,9 +1,12 @@
-import { randString, walk } from './util'
+/* eslint no-use-before-define: "off" */
+
+import {randString, walk} from './util'
 import logging from './logger'
 
 const log = logging('render')
 
-function walkElements (element, components, refs, subtree, bus) {
+// eslint-disable-next-line max-params
+function walkElements(element, components, refs, subtree, bus) {
 	for (const child of element.children) {
 		const childName = child.nodeName.toLowerCase()
 		const attrs = {}
@@ -14,20 +17,25 @@ function walkElements (element, components, refs, subtree, bus) {
 
 			if (value.indexOf('fig-ref-') === 0) {
 				const id = value.slice('fig-ref-'.length)
-				if (refs[id]) attrs[name] = refs[id]
+				if (refs[id]) {
+					attrs[name] = refs[id]
+				}
 
-				// remove all ugly refs from DOM
+				// Remove all ugly refs from DOM
 				child.removeAttribute(name)
 			}
 
-			if (!attrs[name]) attrs[name] = value
+			if (!attrs[name]) {
+				attrs[name] = value
+			}
 
 			if (name.indexOf('@') === 0) {
 				const fn = attrs[name]
-				if (typeof fn !== 'function')
-					throw '@event listener must be a function'
+				if (typeof fn !== 'function') {
+					throw new TypeError('@event listener must be a function')
+				}
 
-				child.addEventListener(name.slice(1), function (e) {
+				child.addEventListener(name.slice(1), e => {
 					e.preventDefault()
 					fn(e)
 				})
@@ -36,7 +44,9 @@ function walkElements (element, components, refs, subtree, bus) {
 
 		if (components.has(childName)) {
 			subtree.children.push(render(child, attrs, components, bus))
-		} else walkElements(child, components, refs, subtree, bus)
+		} else {
+			walkElements(child, components, refs, subtree, bus)
+		}
 	}
 }
 
@@ -69,7 +79,7 @@ const render = (element, opts, components, bus) => {
 	const refs = {}
 	walk(o => {
 		for (const key in o) {
-			if (o.hasOwnProperty(key)) {
+			if (Object.prototype.hasOwnProperty.call(o, key)) {
 				const prop = o[key]
 				if (['function', 'object'].indexOf(typeof prop) !== -1) {
 					const id = ref(prop)

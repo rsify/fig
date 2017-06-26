@@ -6,9 +6,11 @@ const CALLCOUNT = 100
 
 const order = calls => {
 	let i = CALLCOUNT
-	for (const call of calls)
-		if (call !== --i)
+	for (const call of calls) {
+		if (call !== --i) {
 			return false
+		}
+	}
 	return true
 }
 
@@ -47,13 +49,13 @@ test.cb('single async', t => {
 	const calls = []
 	const call = () => {
 		calls.push(0)
-		return new Promise(res => {
-			process.nextTick(res)
+		return new Promise(resolve => {
+			process.nextTick(resolve)
 		})
 	}
 
 	c.defer(async () => {
-		return await call()
+		return call()
 	})
 
 	const done = () => {
@@ -73,8 +75,8 @@ test.cb('multiple async', t => {
 	const calls = []
 	const call = i => {
 		calls.push(i)
-		return new Promise(res => {
-			process.nextTick(res)
+		return new Promise(resolve => {
+			process.nextTick(resolve)
 		})
 	}
 
@@ -82,7 +84,7 @@ test.cb('multiple async', t => {
 	while (i--) {
 		const x = i
 		c.defer(async () => {
-			return await call(x)
+			return call(x)
 		})
 	}
 
@@ -102,16 +104,6 @@ test.cb('mixed sync and async', t => {
 	const c = new Chain()
 
 	const calls = []
-	const callAsync = async x => {
-		calls.push(x)
-		return new Promise(res => {
-			process.nextTick(res)
-		})
-	}
-
-	const callSync = x => {
-		calls.push(x)
-	}
 
 	let i = CALLCOUNT
 	while (i--) {
@@ -120,13 +112,12 @@ test.cb('mixed sync and async', t => {
 			c.defer(() => {
 				calls.push(x)
 			})
-		}
-		else {
+		} else {
 			const x = i
 			c.defer(async () => {
 				calls.push(x)
-				await new Promise(res => {
-					process.nextTick(res)
+				await new Promise(resolve => {
+					process.nextTick(resolve)
 				})
 			})
 		}
