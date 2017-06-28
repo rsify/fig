@@ -2,7 +2,7 @@ import logging from './internal/logger'
 
 const log = logging('use')
 
-export default async (comp, registry) => {
+export default (comp, registry) => {
 	if (!Array.isArray(comp)) {
 		comp = [comp]
 	}
@@ -22,7 +22,7 @@ export default async (comp, registry) => {
 		if (!$style) {
 			$style = document.createElement('style')
 			$style.id = 'fig-style-tag'
-			document.getElementsByTagName('head')[0].append($style)
+			document.getElementsByTagName('head')[0].appendChild($style)
 		}
 
 		// Default display style

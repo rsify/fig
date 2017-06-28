@@ -47,19 +47,20 @@ class Fig {
 	mount($el, name) {
 		this._chain.defer(() => {
 			this._$root = mount($el, this._components.get(name))
-
-			update(this._$root, this.state, this._components, this._bus)
+			this._tree =
+				update(this._$root, this.state, this._components, this._bus)
 		})
 	}
 
 	update() {
 		this._chain.defer(() => {
-			update(this._$root, this.state, this._components, this._bus)
+			this._tree =
+				update(this._$root, this.state, this._components, this._bus)
 		})
 	}
 
 	use(comp) {
-		this._chain.defer(async () => {
+		this._chain.defer(() => {
 			return use(comp, this._components)
 		})
 	}

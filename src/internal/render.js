@@ -15,7 +15,9 @@ function walkElements(element, components, refs, subtree, bus) {
 		const childName = child.nodeName.toLowerCase()
 		const attrs = {}
 
-		for (const attr of child.attributes) {
+		// Workaround a jsdom bug
+		const arr = Array.from(child.attributes)
+		for (const attr of arr) {
 			const name = attr.name
 			const value = attr.value
 
