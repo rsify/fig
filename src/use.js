@@ -1,3 +1,4 @@
+import {noop} from './internal/util'
 import logging from './internal/logger'
 
 const log = logging('use')
@@ -15,8 +16,16 @@ export default (comp, registry) => {
 
 		const name = component.name
 		const template = component.template
-		const style = component.style
-		const script = component.default
+		const style = component.style || ''
+		const script = component.default || noop
+
+		if (typeof name === 'undefined' || name === null) {
+			throw new Error('component name is not specified')
+		}
+
+		if (typeof template === 'undefined' || template === null) {
+			throw new Error(`component ${name} is missing template`)
+		}
 
 		let $style = document.querySelector('#fig-style-tag')
 		if (!$style) {
