@@ -1,0 +1,4 @@
+label nested-component
+
+template
+	h2 hello!
