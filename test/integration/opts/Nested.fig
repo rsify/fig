@@ -1,0 +1,9 @@
+label nested-component
+
+template
+	h1 nested
+
+script
+	export default (view, opts) => {
+		window.passedOpts = opts
+	}

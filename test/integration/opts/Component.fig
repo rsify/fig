@@ -1,0 +1,18 @@
+template
+	nested-component(
+		bool = bool,
+		num = num,
+		str = str,
+		fn = fn,
+		arr = arr,
+		obj = obj)
+
+script
+	export default (view, opts) => {
+		view.bool = opts.bool
+		view.num = opts.num
+		view.str = opts.str
+		view.fn = opts.fn
+		view.arr = opts.arr
+		view.obj = opts.obj
+	}
