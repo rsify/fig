@@ -6,6 +6,7 @@ import {
 	walk
 } from './util'
 import logging from './logger'
+import FigError from './error'
 
 const log = logging('render')
 
@@ -38,7 +39,8 @@ function walkElements(element, components, refs, subtree, bus) {
 			if (name.indexOf('@') === 0) {
 				const fn = attrs[name]
 				if (typeof fn !== 'function') {
-					throw new TypeError('@event listener must be a function')
+					throw new FigError('@event listener must be a function',
+						'check your @handlers')
 				}
 
 				child.addEventListener(name.slice(1), e => {

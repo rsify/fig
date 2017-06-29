@@ -1,5 +1,6 @@
 import {noop} from './internal/util'
 import logging from './internal/logger'
+import FigError from './internal/error'
 
 const log = logging('use')
 
@@ -11,7 +12,8 @@ export default (comp, registry) => {
 	for (const component of comp) {
 		// Skip if already registered
 		if (registry.has(component.name)) {
-			throw new Error(`component already registered (${component.name})`)
+			log.warn(`component ${component.name} has already been registered`)
+			continue
 		}
 
 		const name = component.name
@@ -20,11 +22,13 @@ export default (comp, registry) => {
 		const script = component.default || noop
 
 		if (typeof name === 'undefined' || name === null) {
-			throw new Error('component name is not specified')
+			throw new FigError('component name is not specified',
+				'check label tag in component')
 		}
 
 		if (typeof template === 'undefined' || template === null) {
-			throw new Error(`component ${name} is missing template`)
+			throw new FigError(`component ${name} is missing template`,
+				'template tag is required in every component')
 		}
 
 		let $style = document.querySelector('#fig-style-tag')

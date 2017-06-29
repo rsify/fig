@@ -1,18 +1,26 @@
 import logging from './internal/logger'
+import FigError from './internal/error'
 
 const log = logging('mount')
 
 export default ($el, component) => {
 	if (typeof $el === 'string') {
 		$el = document.querySelector($el)
+
+		if (!$el) {
+			throw new FigError('invalid element selector',
+				'check first argument of app.mount')
+		}
 	}
 
-	if (!$el) {
-		throw new Error('invalid element selector')
+	if (!($el instanceof HTMLElement)) {
+		throw new FigError('invalid element specified',
+			'check first argument of app.mount')
 	}
 
 	if (!component) {
-		throw new Error('specified component doesn\'t exist')
+		throw new FigError('specified component doesn\'t exist',
+			'check second argument of app.mount')
 	}
 
 	log.info('attempting to mount component', component.name, 'at element', $el)
