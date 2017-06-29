@@ -1,0 +1,10 @@
+template
+	one
+	one
+	two
+	two
+
+style
+	main {
+		color: #bada55;
+	}

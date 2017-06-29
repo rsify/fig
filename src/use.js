@@ -35,8 +35,8 @@ export default (comp, registry) => {
 		}
 
 		// Default display style
-		const s = component.name + ' {display: inline-block;} ' + style
-		$style.innerHTML += s
+		const s = component.name + ' {display: inline-block;}\n' + style
+		$style.innerHTML += s + '\n'
 
 		registry.set(component.name, {
 			name,

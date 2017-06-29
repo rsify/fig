@@ -1,0 +1,7 @@
+template
+	.one one
+
+style
+	one {
+		color: #111;
+	}

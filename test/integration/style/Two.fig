@@ -1,0 +1,7 @@
+template
+	.two two
+
+style
+	two {
+		color: #222;
+	}
