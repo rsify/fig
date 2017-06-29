@@ -72,4 +72,7 @@ const tasks = new Listr([
 	}
 ])
 
-tasks.run().catch(() => {})
+tasks.run().catch(err => {
+	console.error(err.stack)
+	process.exit(1) // eslint-disable-line unicorn/no-process-exit
+})
