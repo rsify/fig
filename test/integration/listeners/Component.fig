@@ -1,0 +1,14 @@
+template
+	button.btn(@click = btn) yo
+	h1.h1(@contextmenu = context)
+
+script
+	export default view => {
+		view.btn = e => {
+			window.eventStore.push(e)
+		}
+
+		view.context = e => {
+			window.eventStore.push(e)
+		}
+	}
