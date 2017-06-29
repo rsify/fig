@@ -87,7 +87,8 @@ const render = (element, opts, components, bus) => {
 		for (const key in o) {
 			if (hasOwnProperty(o, key)) {
 				const prop = o[key]
-				if (['function', 'object'].indexOf(typeof prop) !== -1) {
+				if (['function', 'object'].indexOf(typeof prop) !== -1 &&
+					prop !== null) {
 					const id = ref(prop)
 					refs[id] = prop
 				}

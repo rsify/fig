@@ -5,8 +5,10 @@ import {walk} from './util'
 const watch = (obj, prop, notify) => {
 	const o = obj[prop]
 
-	walk(visit, o, notify)
-	defineWatchedProp(obj, prop, notify)
+	if (typeof o === 'object' && o !== null) {
+		walk(visit, o, notify)
+		defineWatchedProp(obj, prop, notify)
+	}
 }
 
 const WATCHED_NAME = '__fig-watched__'
@@ -16,6 +18,10 @@ const MUTATING = ['copyWithin', 'fill', 'pop', 'push',
 	'reverse', 'shift', 'sort', 'splice', 'unshift']
 
 const visit = (o, notify) => {
+	if (typeof o !== 'object' || o === null) {
+		return
+	}
+
 	if (o[WATCHED_NAME]) {
 		// Skip if we're already watching this object
 		return
