@@ -11,6 +11,9 @@ export default async html => {
 
 	const virtualConsole = new VirtualConsole()
 	virtualConsole.sendTo(console)
+	virtualConsole.on('jsdomError', e => {
+		throw e
+	})
 
 	const dom = new JSDOM(html, {
 		virtualConsole,
