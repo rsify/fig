@@ -1,19 +1,18 @@
 import {hasOwnProperty} from './util'
 
-function Logger(scope, fn) {
+function Logger(scope, c) {
 	this.scope = scope
-	this.fn = fn
+	this.c = c
 }
 
 const levels = {
 	success: '#11cc00',
 	info: '#6363ff',
-	warn: '#ffb500',
-	error: '#ff5555'
+	warn: '#ffb500'
 }
 
-const constructor = (scope, fn = console.log) => {
-	return new Logger(scope, fn)
+const constructor = (scope, c = console) => {
+	return new Logger(scope, c)
 }
 
 for (const level in levels) {
@@ -21,11 +20,16 @@ for (const level in levels) {
 		const hex = levels[level]
 		Logger.prototype[level] = function (...msg) {
 			if (constructor.enabled) {
-				this.fn(`%cfig ${this.scope}`,
+				this.c.log(`%cfig ${this.scope}`,
 					`font-weight: bold; color: ${hex}`, ...msg)
 			}
 		}
 	}
+}
+
+Logger.prototype.error = function (...msg) {
+	this.c.error(`%cfig ${this.scope}`,
+		'font-weight: bold', ...msg)
 }
 
 constructor.enabled = true
