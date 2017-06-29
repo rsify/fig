@@ -1,0 +1,12 @@
+template
+	#single= single
+	each el in arr
+		.li= el
+	#nest= nest
+
+script
+	export default (view, opts) => {
+		view.single = opts.single
+		view.arr = opts.arr
+		view.nest = opts.nest.foo
+	}
