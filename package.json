@@ -31,7 +31,10 @@
   "ava": {
     "require": [
       "babel-register"
-    ]
+    ],
+	"source": [
+		"!**/src/**"
+	]
   },
   "babel": {
     "presets": [
