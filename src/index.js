@@ -50,6 +50,10 @@ class Fig {
 			this._tree =
 				update(this._$root, this.state, this._components, this._bus)
 		})
+
+		this._chain.defer(() => {
+			this.emit('fig:ready')
+		})
 	}
 
 	update() {
