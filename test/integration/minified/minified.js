@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import makeDOM from '../helpers/make-dom'
+import makeDOM from '../../helpers/make-dom'
 
 test('fig.js exports fig', async t => {
 	const dom = await makeDOM()

@@ -5,7 +5,7 @@ import path from 'path'
 import getPort from 'get-port'
 import test from 'ava'
 
-import prepare from '../helpers/prepare'
+import prepare from '../../helpers/prepare'
 
 test(async t => {
 	const port = await getPort()

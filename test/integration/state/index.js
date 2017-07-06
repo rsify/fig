@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import prepare from '../helpers/prepare'
+import prepare from '../../helpers/prepare'
 
 test('simple prop', async t => {
 	const {$, app} = await prepare('test/integration/state/_app.js')

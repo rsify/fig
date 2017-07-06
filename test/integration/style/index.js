@@ -2,7 +2,7 @@ import css from 'css'
 import isEqual from 'lodash.isequal'
 import test from 'ava'
 
-import prepare from '../helpers/prepare'
+import prepare from '../../helpers/prepare'
 
 test(async t => {
 	const {$} = await prepare('test/integration/style/_app.js')

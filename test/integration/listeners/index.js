@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import prepare from '../helpers/prepare'
+import prepare from '../../helpers/prepare'
 
 test(async t => {
 	const {$, window} = await prepare('test/integration/listeners/_app.js')

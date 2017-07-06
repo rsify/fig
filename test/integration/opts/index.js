@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import prepare from '../helpers/prepare'
+import prepare from '../../helpers/prepare'
 
 test(async t => {
 	const {app, window} = await prepare('test/integration/opts/_app.js')
