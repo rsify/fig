@@ -32,9 +32,9 @@
     "require": [
       "babel-register"
     ],
-	"source": [
-		"!**/src/**"
-	]
+    "source": [
+      "!**/src/**"
+    ]
   },
   "babel": {
     "presets": [
@@ -51,7 +51,10 @@
         "error",
         80
       ]
-    }
+    },
+    "ignore": [
+      "**/*.{fig,pug}.js"
+    ]
   },
   "dependencies": {}
 }
