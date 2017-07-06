@@ -1,54 +1,68 @@
-import {noop} from './internal/util'
-import logging from './internal/logger'
 import FigError from './internal/error'
+import logging from './internal/logger'
+import parse from './internal/parse'
+import pull from './internal/pull'
+import {noop} from './internal/util'
 
 const log = logging('use')
 
-export default (comp, registry) => {
-	if (!Array.isArray(comp)) {
-		comp = [comp]
+const register = (component, registry) => {
+	const name = component.name
+	const template = component.template
+	const style = component.style || ''
+	const script = component.default || noop
+
+	if (typeof name === 'undefined' || name === null) {
+		throw new FigError('component name is not specified',
+			'check label tag in component')
 	}
 
-	for (const component of comp) {
-		// Skip if already registered
-		if (registry.has(component.name)) {
-			log.warn(`component ${component.name} has already been registered`)
-			continue
-		}
+	if (typeof template === 'undefined' || template === null) {
+		throw new FigError(`component ${name} is missing template`,
+			'template tag is required in every component')
+	}
 
-		const name = component.name
-		const template = component.template
-		const style = component.style || ''
-		const script = component.default || noop
+	let $style = document.querySelector('#fig-style-tag')
+	if (!$style) {
+		$style = document.createElement('style')
+		$style.id = 'fig-style-tag'
+		document.getElementsByTagName('head')[0].appendChild($style)
+	}
 
-		if (typeof name === 'undefined' || name === null) {
-			throw new FigError('component name is not specified',
-				'check label tag in component')
-		}
+	// Default display style
+	const s = component.name + ' {display: inline-block;}\n' + style
+	$style.innerHTML += s + '\n'
 
-		if (typeof template === 'undefined' || template === null) {
-			throw new FigError(`component ${name} is missing template`,
-				'template tag is required in every component')
-		}
+	registry.set(component.name, {
+		name,
+		template,
+		style,
+		script
+	})
 
-		let $style = document.querySelector('#fig-style-tag')
-		if (!$style) {
-			$style = document.createElement('style')
-			$style.id = 'fig-style-tag'
-			document.getElementsByTagName('head')[0].appendChild($style)
-		}
+	log.success('registered component', component.name)
+}
 
-		// Default display style
-		const s = component.name + ' {display: inline-block;}\n' + style
-		$style.innerHTML += s + '\n'
-
-		registry.set(component.name, {
-			name,
-			template,
-			style,
-			script
+export default (input, registry) => {
+	if (typeof input === 'string') {
+		const url = input
+		return pull(url).then(res => {
+			const exports = parse(res)
+			register(exports, registry)
 		})
-
-		log.success('registered component', component.name)
 	}
+
+	if (typeof input !== 'object') {
+		throw new FigError('invalid component descriptor',
+			'first argument of app.use must be a component object or ' +
+			'a url-like string')
+	}
+
+	// Skip if already registered
+	if (registry.has(input.name)) {
+		log.warn(`input ${input.name} has already been registered`)
+		return
+	}
+
+	register(input, registry)
 }
