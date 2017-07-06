@@ -63,9 +63,9 @@ class Fig {
 		})
 	}
 
-	use(comp) {
+	use(comp, name) {
 		this._chain.defer(() => {
-			return use(comp, this._components)
+			return use(comp, name, this._components)
 		})
 	}
 }

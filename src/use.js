@@ -6,11 +6,17 @@ import {noop} from './internal/util'
 
 const log = logging('use')
 
-const register = (component, registry) => {
-	const name = component.name
+const register = (component, defaultName, registry) => {
+	const name = defaultName || component.name
 	const template = component.template
 	const style = component.style || ''
 	const script = component.default || noop
+
+	// Skip if already registered
+	if (registry.has(name)) {
+		log.warn(`input ${name} has already been registered`)
+		return
+	}
 
 	if (typeof name === 'undefined' || name === null) {
 		throw new FigError('component name is not specified',
@@ -30,25 +36,25 @@ const register = (component, registry) => {
 	}
 
 	// Default display style
-	const s = component.name + ' {display: inline-block;}\n' + style
+	const s = name + ' {display: inline-block;}\n' + style
 	$style.innerHTML += s + '\n'
 
-	registry.set(component.name, {
+	registry.set(name, {
 		name,
 		template,
 		style,
 		script
 	})
 
-	log.success('registered component', component.name)
+	log.success('registered component', name)
 }
 
-export default (input, registry) => {
+export default (input, name, registry) => {
 	if (typeof input === 'string') {
 		const url = input
 		return pull(url).then(res => {
 			const exports = parse(res)
-			register(exports, registry)
+			register(exports, name, registry)
 		})
 	}
 
@@ -58,11 +64,5 @@ export default (input, registry) => {
 			'a url-like string')
 	}
 
-	// Skip if already registered
-	if (registry.has(input.name)) {
-		log.warn(`input ${input.name} has already been registered`)
-		return
-	}
-
-	register(input, registry)
+	register(input, name, registry)
 }
