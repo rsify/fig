@@ -21,5 +21,11 @@ module.exports = {
 		resolve(),
 		commonjs()
 	],
-	sourceMap: false
+	sourceMap: false,
+	onwarn: async msg => {
+		if (msg.code === 'EVAL') {
+			return
+		}
+		console.warn(msg.message, msg.url)
+	}
 }

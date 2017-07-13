@@ -54,8 +54,8 @@ const tasks = new Listr([
 	{
 		title: 'Write',
 		task: async (ctx, task) => {
-			if (!await p(fs.stat)('../dist')) {
-				await p(fs.mkdir)('../dist')
+			if (!await p(fs.stat)('./dist')) {
+				await p(fs.mkdir)('./dist')
 			}
 
 			await p(fs.writeFile)(config.dest, ctx.babelled)
