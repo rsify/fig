@@ -11,7 +11,7 @@ import FigError from './error'
 const log = logging('render')
 
 // eslint-disable-next-line max-params
-function walkElements(element, components, refs, subtree, bus) {
+function walkElements(element, slotted, components, refs, subtree, bus) {
 	for (const child of element.children) {
 		const childName = child.nodeName.toLowerCase()
 		const attrs = {}
@@ -50,10 +50,14 @@ function walkElements(element, components, refs, subtree, bus) {
 			}
 		}
 
+		if (childName === 'slot') {
+			child.parentNode.replaceChild(slotted.shift(), child)
+		}
+
 		if (components.has(childName)) {
 			subtree.children.push(render(child, attrs, components, bus))
 		} else {
-			walkElements(child, components, refs, subtree, bus)
+			walkElements(child, slotted, components, refs, subtree, bus)
 		}
 	}
 }
@@ -98,8 +102,10 @@ const render = (element, opts, components, bus) => {
 		}
 	}, view)
 
+	const childrenArr = Array.from(element.children)
+	const slotted = childrenArr.map(x => x.cloneNode(true))
 	element.innerHTML = component.template(view)
-	walkElements(element, components, refs, subtree, bus)
+	walkElements(element, slotted, components, refs, subtree, bus)
 
 	return subtree
 }

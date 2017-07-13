@@ -1,0 +1,6 @@
+template
+	slot
+	.one
+		slot
+		.two
+			slot

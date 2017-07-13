@@ -1,0 +1,8 @@
+template
+	nested#single
+		.p cool
+
+	multi-nested#multi
+		.a 1
+		.b 2
+		.c 3
