@@ -5,8 +5,8 @@ import test from 'ava'
 import prepare from '../../helpers/prepare'
 
 test(async t => {
-	const {$} = await prepare('test/integration/style/_app.js')
-	const ast = css.parse($('#fig-style-tag').innerHTML)
+	const {app, $} = await prepare('test/integration/style/_app.js')
+	const ast = css.parse($(`#fig-${app._id}-style`).innerHTML)
 
 	const rules = ast.stylesheet.rules
 	t.is(rules.length, 6)

@@ -5,6 +5,7 @@ import mount from './mount'
 import update from './update'
 import use from './use'
 import watch from './internal/notifier'
+import {randString} from './internal/util'
 
 const log = logging('app')
 
@@ -32,6 +33,7 @@ class Fig {
 		this._components = new Map()
 		this._tree = null
 
+		this._id = randString()
 		this._bus = new Emitter()
 		this.on = this._bus.on.bind(this._bus)
 		this.off = this._bus.off.bind(this._bus)
@@ -62,7 +64,7 @@ class Fig {
 
 	use(comp, name) {
 		this._chain.defer(() => {
-			return use(comp, name, this._components)
+			return use(comp, name, `fig-${this._id}-style`, this._components)
 		})
 	}
 }

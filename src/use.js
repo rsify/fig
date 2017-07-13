@@ -6,7 +6,7 @@ import {noop} from './internal/util'
 
 const log = logging('use')
 
-const register = (component, defaultName, registry) => {
+const register = (component, defaultName, styleTagId, registry) => {
 	const name = defaultName || component.name
 	const template = component.template
 	const style = component.style || ''
@@ -28,10 +28,10 @@ const register = (component, defaultName, registry) => {
 			'template tag is required in every component')
 	}
 
-	let $style = document.querySelector('#fig-style-tag')
+	let $style = document.querySelector(`#${styleTagId}`)
 	if (!$style) {
 		$style = document.createElement('style')
-		$style.id = 'fig-style-tag'
+		$style.id = styleTagId
 		document.getElementsByTagName('head')[0].appendChild($style)
 	}
 
@@ -49,12 +49,12 @@ const register = (component, defaultName, registry) => {
 	log.success('registered component', name)
 }
 
-export default (input, name, registry) => {
+export default (input, name, styleTagId, registry) => {
 	if (typeof input === 'string') {
 		const url = input
 		return pull(url).then(res => {
 			const exports = parse(res)
-			register(exports, name, registry)
+			register(exports, name, styleTagId, registry)
 		})
 	}
 
@@ -64,5 +64,5 @@ export default (input, name, registry) => {
 			'a url-like string')
 	}
 
-	register(input, name, registry)
+	register(input, name, styleTagId, registry)
 }
