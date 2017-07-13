@@ -1,6 +1,3 @@
-// eslint-disable-next-line import/no-unassigned-import
-import 'regenerator-runtime/runtime'
-
 import Chain from './internal/chain'
 import Emitter from './internal/emitter'
 import logging from './internal/logger'
