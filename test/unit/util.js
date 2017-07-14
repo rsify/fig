@@ -87,5 +87,12 @@ test('wildcard', t => {
 	t.false(wildcard('ding-dong', 'ping-*'))
 	t.false(wildcard('ping', 'ping-*'))
 
+	t.false(wildcard('top', 'xXxtopxXx'))
+	t.false(wildcard('kek', 'kekstein'))
+	t.false(wildcard('low', 'unlow'))
+
+	t.true(wildcard('same', 'same'))
+	t.true(wildcard('thing', 'thing'))
+
 	// See ./emitter.test.js for more
 })

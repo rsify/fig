@@ -56,7 +56,7 @@ const wildcard = (name, domain) => {
 		return '\\u' + hex
 	}).join('')
 
-	const re = new RegExp(str)
+	const re = new RegExp(`^${str}$`)
 	return re.test(name)
 }
 
