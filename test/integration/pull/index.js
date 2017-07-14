@@ -12,7 +12,7 @@ test(async t => {
 	const server = await new Promise(resolve => {
 		const s = http.createServer((req, res) => {
 			res.setHeader('Access-Control-Allow-Origin', '*')
-			const p = path.join(__dirname, req.url)
+			const p = path.join(__dirname, 'fixtures', req.url)
 			try {
 				const content = fs.readFileSync(p)
 				res.end(content, 'utf-8')
@@ -26,9 +26,9 @@ test(async t => {
 	})
 	server.unref()
 
-	const {app, $} = await prepare('test/integration/pull/_app.js')
+	const {app, $} = await prepare(__dirname)
 
-	app.use(`http://localhost:${port}/_Component.fig.js`)
+	app.use(`http://localhost:${port}/Component.fig.js`)
 
 	app.mount('#app', 'component')
 	await new Promise(resolve => {

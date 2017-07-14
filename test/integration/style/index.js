@@ -5,7 +5,7 @@ import test from 'ava'
 import prepare from '../../helpers/prepare'
 
 test(async t => {
-	const {app, $} = await prepare('test/integration/style/_app.js')
+	const {app, $} = await prepare(__dirname)
 	const ast = css.parse($(`#fig-${app._id}-style`).innerHTML)
 
 	const rules = ast.stylesheet.rules

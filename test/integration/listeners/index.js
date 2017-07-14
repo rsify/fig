@@ -3,7 +3,7 @@ import test from 'ava'
 import prepare from '../../helpers/prepare'
 
 test(async t => {
-	const {$, window} = await prepare('test/integration/listeners/_app.js')
+	const {$, window} = await prepare(__dirname)
 	const ev = window.eventStore
 
 	t.is(ev.length, 2)

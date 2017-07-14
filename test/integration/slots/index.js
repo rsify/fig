@@ -3,7 +3,7 @@ import test from 'ava'
 import prepare from '../../helpers/prepare'
 
 test(async t => {
-	const {$, $$} = await prepare('test/integration/slots/_app.js')
+	const {$, $$} = await prepare(__dirname)
 
 	// Single slot
 	t.is($$('.p').length, 1)

@@ -3,7 +3,7 @@ import test from 'ava'
 import prepare from '../../helpers/prepare'
 
 test(async t => {
-	const {app, window} = await prepare('test/integration/opts/_app.js')
+	const {app, window} = await prepare(__dirname)
 
 	const state = app.state
 	const opts = window.passedOpts

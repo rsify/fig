@@ -3,7 +3,7 @@ import test from 'ava'
 import prepare from '../../helpers/prepare'
 
 test(async t => {
-	const {app} = await prepare('test/integration/tree/_app.js')
+	const {app} = await prepare(__dirname)
 
 	t.true(Array.isArray(app._tree.children))
 	t.is(app._tree.name, 'component')

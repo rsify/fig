@@ -3,7 +3,7 @@ import test from 'ava'
 import prepare from '../../helpers/prepare'
 
 test('simple prop', async t => {
-	const {$, app} = await prepare('test/integration/state/_app.js')
+	const {$, app} = await prepare(__dirname)
 
 	t.is($('#single').innerHTML, '42')
 	app.state.single = 69
@@ -11,7 +11,7 @@ test('simple prop', async t => {
 })
 
 test('iterable prop', async t => {
-	const {$$, app} = await prepare('test/integration/state/_app.js')
+	const {$$, app} = await prepare(__dirname)
 
 	t.is($$('.li').length, 2)
 	app.state.arr.push(2)
@@ -23,7 +23,7 @@ test('iterable prop', async t => {
 })
 
 test('nested prop', async t => {
-	const {$, app} = await prepare('test/integration/state/_app.js')
+	const {$, app} = await prepare(__dirname)
 
 	t.is($('#nest').innerHTML, '42')
 	app.state.nest.foo = 69

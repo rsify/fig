@@ -1,11 +1,13 @@
+import {join} from 'path'
+
 import bundler from './bundler'
 import embed from './embed-script'
 import makeDOM from './make-dom'
 
-export default async p => {
+export default async dir => {
 	const dom = await makeDOM()
 	const {window} = dom
-	const bundle = await bundler(p)
+	const bundle = await bundler(join(dir, 'fixtures/app.js'))
 	embed(window, bundle)
 
 	return {
