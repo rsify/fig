@@ -1,4 +1,4 @@
-export default str => {
+export default function (str) {
 	const exports = {}
 	const module = {
 		exports

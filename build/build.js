@@ -8,24 +8,17 @@ const uglify = require('uglify-js')
 
 const config = require('./config')
 
-// Dirty way to update the listr task list
-const immediate = () => new Promise(resolve => {
-	setTimeout(resolve, 0)
-})
-
 const tasks = new Listr([
 	{
 		title: 'Rollup dependencies',
 		task: async ctx => {
 			ctx.bundle = await rollup.rollup(config)
-			await immediate()
 		}
 	},
 	{
 		title: 'Generate code',
 		task: async ctx => {
 			ctx.code = ctx.bundle.generate(config).code
-			await immediate()
 		}
 	},
 	{
@@ -37,7 +30,6 @@ const tasks = new Listr([
 					['env', {target: '> 0.25%', modules: false}]
 				]
 			}).code
-			await immediate()
 		}
 	},
 	{
@@ -48,7 +40,6 @@ const tasks = new Listr([
 				throw ugly.error
 			}
 			ctx.uglified = ugly.code
-			await immediate()
 		}
 	},
 	{

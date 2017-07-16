@@ -1,5 +1,8 @@
+const path = require('path')
+
 const commonjs = require('rollup-plugin-commonjs')
 const resolve = require('rollup-plugin-node-resolve')
+const strip = require('rollup-plugin-strip')
 
 const pkg = require('../package.json')
 
@@ -11,21 +14,44 @@ const banner = `
 
 module.exports = {
 	banner,
-	dest: 'dist/fig.js',
 	context: 'window',
+	dest: 'dist/fig.js',
 	entry: 'src/index.js',
 	exports: 'default',
-	format: 'umd',
-	moduleName: 'fig',
-	plugins: [
-		resolve(),
-		commonjs()
+	external: [
+		'assert',
+		path.resolve('./noop.js')
 	],
-	sourceMap: false,
-	onwarn: async msg => {
-		if (msg.code === 'EVAL') {
+	format: 'umd',
+	globals: {
+		assert: 'assert'
+	},
+	moduleName: 'fig',
+	onwarn: warning => {
+		const muted = [
+			'EVAL',
+			'UNUSED_EXTERNAL_IMPORT',
+			'MISSING_NODE_BUILTINS'
+		]
+
+		if (muted.includes(warning.code)) {
 			return
 		}
-		console.warn(msg.message, msg.url)
-	}
+
+		console.warn(
+			`${warning.message} - (${warning.code}) - ${warning.url}\n\n\n\n`
+		)
+	},
+	plugins: [
+		strip({
+			debugger: true,
+			functions: ['assert.*'],
+			sourceMap: false
+		}),
+		resolve({
+			preferBuiltins: true
+		}),
+		commonjs()
+	],
+	sourceMap: false
 }

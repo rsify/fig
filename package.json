@@ -20,6 +20,7 @@
     "rollup": "^0.43.0",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-strip": "^1.1.1",
     "uglify-js": "^3.0.19"
   },
   "scripts": {
