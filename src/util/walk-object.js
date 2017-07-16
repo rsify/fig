@@ -1,7 +1,7 @@
 import {hasOwnProperty} from './'
 
 // Walk through object properties recursively
-const walk = (visitor, o, ...args) => {
+const walk = (o, visitor, ...args) => {
 	if (typeof o === 'object') {
 		visitor(o, ...args)
 
@@ -9,7 +9,7 @@ const walk = (visitor, o, ...args) => {
 			if (hasOwnProperty(o, key)) {
 				const val = o[key]
 				if (typeof val === 'object') {
-					walk(visitor, val, ...args)
+					walk(val, visitor, ...args)
 				}
 			}
 		}

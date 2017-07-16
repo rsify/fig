@@ -89,7 +89,7 @@ const render = (element, opts, components, bus) => {
 	component.script.call(element, view, opts, bus)
 
 	const refs = {}
-	walk(o => {
+	walk(view, o => {
 		for (const key in o) {
 			if (hasOwnProperty(o, key)) {
 				const prop = o[key]
@@ -100,7 +100,7 @@ const render = (element, opts, components, bus) => {
 				}
 			}
 		}
-	}, view)
+	})
 
 	const childrenArr = Array.from(element.children)
 	const slotted = childrenArr.map(x => x.cloneNode(true))

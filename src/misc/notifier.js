@@ -6,7 +6,7 @@ const watch = (obj, prop, notify) => {
 	const o = obj[prop]
 
 	if (typeof o === 'object' && o !== null) {
-		walk(visit, o, notify)
+		walk(o, visit, notify)
 		defineWatchedProp(obj, prop, notify)
 	}
 }
@@ -61,7 +61,7 @@ const wrapFactory = (that, fn, notify) => {
 	// eslint-disable-next-line func-names
 	return function FigWrap() {
 		const res = fn.apply(that, arguments)
-		walk(visit, that, notify)
+		walk(that, visit, notify)
 		notify()
 		return res
 	}
@@ -80,7 +80,7 @@ const defineWatchedProp = (obj, prop, notify) => {
 	Object.defineProperty(obj, prop, {
 		set: o => {
 			v = o
-			walk(visit, v, notify)
+			walk(v, visit, notify)
 			notify()
 		},
 		get: () => {

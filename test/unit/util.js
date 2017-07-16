@@ -76,7 +76,7 @@ test('walk', t => {
 		}
 	}
 
-	walk(visitor, input, 'this', 'is', 'patrick')
+	walk(input, visitor, 'this', 'is', 'patrick')
 
 	t.deepEqual(input, output)
 })
