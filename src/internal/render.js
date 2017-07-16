@@ -43,10 +43,10 @@ function walkElements(element, slotted, components, refs, subtree, bus) {
 						'check your @handlers')
 				}
 
-				child.addEventListener(name.slice(1), e => {
+				child['on' + name.slice(1)] = e => {
 					e.preventDefault()
 					fn(e)
-				})
+				}
 			}
 		}
 
