@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import logging from '../../src/internal/logger'
+import logging from '../../src/class/logger'
 
 test.beforeEach(t => {
 	logging.enabled = true

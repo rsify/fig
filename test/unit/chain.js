@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import Chain from '../../src/internal/chain'
+import Chain from '../../src/class/chain'
 
 const CALLCOUNT = 100
 

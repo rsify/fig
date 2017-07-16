@@ -1,5 +1,5 @@
 import test from 'ava'
-import parse from '../../src/internal/parse'
+import parse from '../../src/misc/parse'
 
 test('named exports', t => {
 	const fixture = `

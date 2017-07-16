@@ -1,8 +1,9 @@
-import FigError from './internal/error'
-import logging from './internal/logger'
-import parse from './internal/parse'
-import pull from './internal/pull'
-import {noop} from './internal/util'
+import FigError from '../class/error'
+import logging from '../class/logger'
+import {noop} from '../util'
+
+import parse from './parse'
+import pull from './pull'
 
 const log = logging('use')
 

@@ -1,6 +1,6 @@
 import morph from 'nanomorph'
 
-import render from './internal/render'
+import render from './render'
 
 export default ($root, state, components, bus) => {
 	if ($root) {

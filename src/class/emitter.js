@@ -1,4 +1,4 @@
-import {wildcard} from './util'
+import {wildcard} from '../util'
 
 class Emitter {
 	constructor() {

@@ -7,7 +7,7 @@ import {
 	randString,
 	walk,
 	wildcard
-} from '../../src/internal/util'
+} from '../../src/util'
 
 test('hasOwnProperty', t => {
 	t.true(hasOwnProperty({foo: 'bar'}, 'foo'))

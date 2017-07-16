@@ -1,6 +1,6 @@
 /* eslint no-use-before-define: "off" */
 
-import {walk} from './util'
+import {walk} from '../util'
 
 const watch = (obj, prop, notify) => {
 	const o = obj[prop]

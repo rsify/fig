@@ -1,5 +1,5 @@
-import logging from './internal/logger'
-import FigError from './internal/error'
+import logging from '../class/logger'
+import FigError from '../class/error'
 
 const log = logging('mount')
 

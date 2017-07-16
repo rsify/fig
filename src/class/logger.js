@@ -1,4 +1,4 @@
-import {hasOwnProperty} from './util'
+import {hasOwnProperty} from '../util'
 
 function Logger(scope, c) {
 	this.scope = scope

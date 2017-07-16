@@ -4,9 +4,9 @@ import {
 	hasOwnProperty,
 	randString,
 	walk
-} from './util'
-import logging from './logger'
-import FigError from './error'
+} from '../util'
+import logging from '../class/logger'
+import FigError from '../class/error'
 
 const log = logging('render')
 

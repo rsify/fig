@@ -1,11 +1,11 @@
-import Chain from './internal/chain'
-import Emitter from './internal/emitter'
-import logging from './internal/logger'
-import mount from './mount'
-import update from './update'
-import use from './use'
-import watch from './internal/notifier'
-import {randString} from './internal/util'
+import Chain from './class/chain'
+import Emitter from './class/emitter'
+import logging from './class/logger'
+import mount from './dom/mount'
+import update from './dom/update'
+import use from './misc/use'
+import watch from './misc/notifier'
+import {randString} from './util'
 
 const log = logging('app')
 
@@ -69,8 +69,6 @@ class Fig {
 	}
 }
 
-const constructor = (opts = DEFAULTS) => {
+export default (opts = DEFAULTS) => {
 	return new Fig(opts)
 }
-
-export default constructor

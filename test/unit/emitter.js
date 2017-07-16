@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import Emitter from '../../src/internal/emitter'
+import Emitter from '../../src/class/emitter'
 
 test('returns this on all methods', t => {
 	const e = new Emitter()
