@@ -26,6 +26,7 @@
   "scripts": {
     "build": "node build/build.js",
     "build:watch": "big-eye 'npm run build' -w src/",
+    "prepublish": "npm run build",
     "test": "xo && ava",
     "test:watch": "ava --watch"
   },
