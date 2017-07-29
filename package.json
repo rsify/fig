@@ -1,7 +1,7 @@
 {
   "name": "figjs",
   "version": "0.0.0",
-  "description": "front-end js framework",
+  "description": "experimental front-end js framework",
   "main": "dist/fig.js",
   "author": "nikersify <nikersify@nikerino.com>",
   "license": "MIT",
@@ -12,7 +12,6 @@
     "big-eye": "^0.0.2",
     "browserify": "^14.4.0",
     "css": "^2.2.1",
-    "figify": "^0.0.0",
     "get-port": "^3.1.0",
     "jsdom": "^11.0.0",
     "listr": "^0.12.0",
@@ -58,5 +57,7 @@
       "**/*.{fig,pug}.js"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "figify": "^0.1.0"
+  }
 }
