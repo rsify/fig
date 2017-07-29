@@ -1,6 +1,6 @@
 {
   "name": "figjs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "experimental front-end js framework",
   "main": "dist/fig.js",
   "author": "nikersify <nikersify@nikerino.com>",
