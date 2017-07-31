@@ -1,0 +1,9 @@
+template
+	.__fig-skip(id='potato')
+		.x hi
+			.y= foo
+
+script
+	export default (view, opts, bus) => {
+		view.foo = opts.foo
+	}

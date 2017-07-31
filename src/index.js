@@ -26,9 +26,11 @@ class Fig {
 			if (this._$root) {
 				logging('notifier').info('state changes detected, updating...')
 				this._tree = update(this._$root, this.state,
-					this._components, this._bus)
+					this._components, this._bus, this.ref)
 			}
 		})
+
+		this.ref = {}
 
 		this._components = new Map()
 		this._tree = null
@@ -47,7 +49,8 @@ class Fig {
 		this._chain.defer(() => {
 			this._$root = mount($el, this._components.get(name))
 			this._tree =
-				update(this._$root, this.state, this._components, this._bus)
+				update(this._$root, this.state, this._components, this._bus,
+					this.ref)
 		})
 
 		this._chain.defer(() => {
@@ -58,7 +61,8 @@ class Fig {
 	update() {
 		this._chain.defer(() => {
 			this._tree =
-				update(this._$root, this.state, this._components, this._bus)
+				update(this._$root, this.state, this._components, this._bus,
+					this.ref)
 		})
 	}
 

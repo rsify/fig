@@ -1,4 +1,5 @@
 /* eslint no-use-before-define: "off" */
+/* eslint max-params: "off" */
 
 import {
 	hasOwnProperty,
@@ -10,25 +11,50 @@ import FigError from '../class/error'
 
 const log = logging('render')
 
-// eslint-disable-next-line max-params
-function walkElements(element, slotted, components, refs, subtree, bus) {
+const ID_PREFIX = 'fig-id-'
+
+function walkElements(element, slotted, components, identifiers, subtree, bus,
+	ref) {
 	for (const child of element.children) {
 		const childName = child.nodeName.toLowerCase()
 		const attrs = {}
 
-		// Workaround a jsdom bug
+		if (child.classList.contains('__fig-skip')) {
+			if (!child.attributes.id) {
+				throw new FigError('missing id attribute',
+					'skip mixin must have an id attribute provided')
+			}
+			const id = child.attributes.id.value
+
+			const grandchildren = child.children
+			if (grandchildren.length !== 1) {
+				throw new FigError(
+					'incorrect amount of root nodes',
+					'skip mixin must only have one root level child')
+			}
+			const grandchild = grandchildren[0]
+
+			if (ref[id]) {
+				child.parentNode.replaceChild(ref[id], child)
+			} else {
+				ref[id] = grandchild
+			}
+
+			return
+		}
+
 		const arr = Array.from(child.attributes)
 		for (const attr of arr) {
 			const name = attr.name
 			const value = attr.value
 
-			if (value.indexOf('fig-ref-') === 0) {
-				const id = value.slice('fig-ref-'.length)
-				if (refs[id]) {
-					attrs[name] = refs[id]
+			if (value.indexOf(ID_PREFIX) === 0) {
+				const id = value.slice(ID_PREFIX.length)
+				if (identifiers[id]) {
+					attrs[name] = identifiers[id]
 				}
 
-				// Remove all ugly refs from DOM
+				// Remove all ugly identifiers from DOM
 				child.removeAttribute(name)
 			}
 
@@ -55,26 +81,27 @@ function walkElements(element, slotted, components, refs, subtree, bus) {
 		}
 
 		if (components.has(childName)) {
-			subtree.children.push(render(child, attrs, components, bus))
+			subtree.children.push(render(child, attrs, components, bus, ref))
 		} else {
-			walkElements(child, slotted, components, refs, subtree, bus)
+			walkElements(child, slotted, components, identifiers, subtree, bus,
+				ref)
 		}
 	}
 }
 
-const ref = prop => {
+const identify = prop => {
 	const id = randString(10)
 
 	Object.defineProperty(prop, 'toJSON', {
 		configurable: true,
 		enumerable: false,
-		value: () => 'fig-ref-' + id
+		value: () => ID_PREFIX + id
 	})
 
 	return id
 }
 
-const render = (element, opts, components, bus) => {
+const render = (element, opts, components, bus, ref) => {
 	log.info('rendering', element, 'with opts', opts)
 
 	const name = element.nodeName.toLowerCase()
@@ -88,15 +115,15 @@ const render = (element, opts, components, bus) => {
 	const view = {}
 	component.script.call(element, view, opts, bus)
 
-	const refs = {}
+	const identifiers = {}
 	walk(view, o => {
 		for (const key in o) {
 			if (hasOwnProperty(o, key)) {
 				const prop = o[key]
 				if (['function', 'object'].indexOf(typeof prop) !== -1 &&
 					prop !== null) {
-					const id = ref(prop)
-					refs[id] = prop
+					const id = identify(prop)
+					identifiers[id] = prop
 				}
 			}
 		}
@@ -105,7 +132,7 @@ const render = (element, opts, components, bus) => {
 	const childrenArr = Array.from(element.children)
 	const slotted = childrenArr.map(x => x.cloneNode(true))
 	element.innerHTML = component.template(view)
-	walkElements(element, slotted, components, refs, subtree, bus)
+	walkElements(element, slotted, components, identifiers, subtree, bus, ref)
 
 	return subtree
 }
