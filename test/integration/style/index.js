@@ -30,6 +30,5 @@ test(async t => {
 
 		t.is(displayRules.length, 1)
 		t.is(colorRules.length, 1)
-		t.pass(selector)
 	}
 })

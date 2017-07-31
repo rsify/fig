@@ -16,6 +16,4 @@ test(async t => {
 	t.is(nested.children.length, 1)
 	t.is(nested.children[0], $('.n'))
 	t.is($('.n').innerHTML, 'hello!')
-
-	t.pass()
 })
