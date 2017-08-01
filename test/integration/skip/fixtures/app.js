@@ -5,7 +5,8 @@ window.app = app
 app.use(require('./Component.fig'))
 
 app.state = {
-	foo: 42
+	foo: 42,
+	bar: 42
 }
 
 app.mount('#app', 'component')

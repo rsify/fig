@@ -34,13 +34,13 @@ function walkElements(element, slotted, components, identifiers, subtree, bus,
 			}
 			const grandchild = grandchildren[0]
 
-			if (ref[id]) {
-				child.parentNode.replaceChild(ref[id], child)
-			} else {
+			if (!ref[id]) {
 				ref[id] = grandchild
 			}
 
-			return
+			child.parentNode.replaceChild(ref[id], child)
+
+			continue
 		}
 
 		const arr = Array.from(child.attributes)

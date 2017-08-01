@@ -3,7 +3,13 @@ template
 		.x hi
 			.y= foo
 
+	.ne
+		.sted
+			.__fig-skip(id='nested')
+				.snek= bar
+
 script
 	export default (view, opts, bus) => {
 		view.foo = opts.foo
+		view.bar = opts.bar
 	}
