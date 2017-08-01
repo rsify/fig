@@ -37,7 +37,7 @@ const register = (component, defaultName, styleTagId, registry) => {
 	}
 
 	// Default display style
-	const s = name + ' {display: inline-block;}\n' + style
+	const s = name + ' {display: block;}\n' + style
 	$style.innerHTML += s + '\n'
 
 	registry.set(name, {
