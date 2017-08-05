@@ -34,11 +34,18 @@ function walkElements(element, slotted, components, identifiers, subtree, bus,
 			}
 			const grandchild = grandchildren[0]
 
-			if (!ref[id]) {
-				ref[id] = grandchild
-			}
+			if (ref[id]) {
+				// Create temporary node to prevent morphing
+				// the child's children.
 
-			child.parentNode.replaceChild(ref[id], child)
+				const tmpChild = document.createElement('div')
+				tmpChild.isSameNode = target => target === ref[id]
+
+				element.replaceChild(tmpChild, child)
+			} else {
+				ref[id] = grandchild
+				element.replaceChild(ref[id], child)
+			}
 
 			continue
 		}
