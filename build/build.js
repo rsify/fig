@@ -45,7 +45,7 @@ const tasks = new Listr([
 	{
 		title: 'Write',
 		task: async (ctx, task) => {
-			if (!await p(fs.stat)('./dist')) {
+			if (!fs.existsSync('./dist')) {
 				await p(fs.mkdir)('./dist')
 			}
 
