@@ -1,0 +1,11 @@
+template
+	button(@click=click)
+
+script
+	export default (view, opts, emit) => {
+		view.x = opts.x
+
+		view.click = e => {
+			emit('button click')
+		}
+	}

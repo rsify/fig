@@ -39,7 +39,7 @@ class Fig {
 
 				this.emit('fig update pre')
 
-				update(this._$root, this.state,	this._components, this._bus,
+				update(this._$root, this.state,	this._components, this.emit,
 					this.ref)
 
 				this.emit('fig update')
@@ -53,7 +53,7 @@ class Fig {
 		this._chain.defer(() => {
 			this._$root = mount($el, this._components.get(name))
 
-			update(this._$root, this.state,	this._components, this._bus,
+			update(this._$root, this.state,	this._components, this.emit,
 				this.ref)
 		})
 
@@ -64,7 +64,7 @@ class Fig {
 
 	update() {
 		this._chain.defer(() => {
-			update(this._$root, this.state,	this._components, this._bus,
+			update(this._$root, this.state,	this._components, this.emit,
 				this.ref)
 		})
 	}
