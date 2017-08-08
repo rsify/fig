@@ -15,11 +15,11 @@ const DEFAULTS = {
 
 class Fig {
 	constructor(opts) {
-		this.opts = opts
+		this._opts = opts
 
-		logging.enabled = opts.debug
+		logging.enabled = this._opts.debug
 
-		log.info('initializing with config', opts)
+		log.info('initializing with config', this._opts)
 
 		this.state = {}
 		watch(this, 'state', () => {
