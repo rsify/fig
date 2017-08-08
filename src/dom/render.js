@@ -13,8 +13,7 @@ const log = logging('render')
 
 const ID_PREFIX = 'fig-id-'
 
-function walkElements(element, slotted, components, identifiers, subtree, bus,
-	ref) {
+function walkElements(element, slotted, components, identifiers, bus, ref) {
 	for (const child of element.children) {
 		const childName = child.nodeName.toLowerCase()
 		const attrs = {}
@@ -88,10 +87,9 @@ function walkElements(element, slotted, components, identifiers, subtree, bus,
 		}
 
 		if (components.has(childName)) {
-			subtree.children.push(render(child, attrs, components, bus, ref))
+			render(child, attrs, components, bus, ref)
 		} else {
-			walkElements(child, slotted, components, identifiers, subtree, bus,
-				ref)
+			walkElements(child, slotted, components, identifiers, bus, ref)
 		}
 	}
 }
@@ -114,11 +112,6 @@ const render = (element, opts, components, bus, ref) => {
 	const name = element.nodeName.toLowerCase()
 	const component = components.get(name)
 
-	const subtree = {}
-	subtree.name = name
-	subtree.$el = element
-	subtree.children = []
-
 	const view = {}
 	component.script.call(element, view, opts, bus)
 
@@ -139,9 +132,7 @@ const render = (element, opts, components, bus, ref) => {
 	const childrenArr = Array.from(element.children)
 	const slotted = childrenArr.map(x => x.cloneNode(true))
 	element.innerHTML = component.template(view)
-	walkElements(element, slotted, components, identifiers, subtree, bus, ref)
-
-	return subtree
+	walkElements(element, slotted, components, identifiers, bus, ref)
 }
 
 export default render
