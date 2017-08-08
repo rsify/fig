@@ -11,7 +11,7 @@ module.exports = {
 	exports: 'default',
 	external: [
 		'assert',
-		path.resolve('./noop.js')
+		path.resolve('../src/util/noop-fn.js')
 	],
 	format: 'umd',
 	globals: {
