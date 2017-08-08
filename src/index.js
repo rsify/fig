@@ -22,24 +22,29 @@ class Fig {
 		log.info('initializing with config', this._opts)
 
 		this.state = {}
-		watch(this, 'state', () => {
-			if (this._$root) {
-				logging('notifier').info('state changes detected, updating...')
-				update(this._$root, this.state,	this._components, this._bus,
-					this.ref)
-			}
-		})
-
 		this.ref = {}
 
 		this._components = new Map()
-
 		this._id = randString()
 		this._bus = new Emitter()
+
 		this.on = this._bus.on.bind(this._bus)
 		this.off = this._bus.off.bind(this._bus)
 		this.once = this._bus.once.bind(this._bus)
 		this.emit = this._bus.emit.bind(this._bus)
+
+		watch(this, 'state', () => {
+			if (this._$root) {
+				logging('notifier').info('state changes detected, updating...')
+
+				this.emit('fig update pre')
+
+				update(this._$root, this.state,	this._components, this._bus,
+					this.ref)
+
+				this.emit('fig update')
+			}
+		})
 
 		this._chain = new Chain()
 	}
@@ -53,7 +58,7 @@ class Fig {
 		})
 
 		this._chain.defer(() => {
-			this.emit('fig:ready')
+			this.emit('fig ready')
 		})
 	}
 

@@ -32,7 +32,7 @@ test(async t => {
 
 	app.mount('#app', 'component')
 	await new Promise(resolve => {
-		app.on('fig:ready', () => {
+		app.on('fig ready', () => {
 			const $x = $('#x')
 			t.false($x === null)
 			t.is($x.innerHTML, 'heck')

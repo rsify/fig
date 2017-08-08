@@ -1,0 +1,7 @@
+template
+	div= x
+
+script
+	export default (view, opts) => {
+		view.x = opts.x
+	}
