@@ -2,9 +2,26 @@
   "name": "figjs",
   "version": "0.1.2",
   "description": "experimental front-end js framework",
-  "main": "dist/fig.js",
-  "author": "nikersify <nikersify@nikerino.com>",
   "license": "MIT",
+  "repository": "nikersify/fig",
+  "homepage": "https://fig.nikerino.com",
+  "author": "nikersify <nikersify@nikerino.com>",
+  "bugs": {
+    "url": "https://github.com/nikersify/fig/issues"
+  },
+  "main": "dist/fig.js",
+  "engines": {
+    "node": ">=7.6"
+  },
+  "scripts": {
+    "lint": "xo",
+    "build": "node build/build.js",
+    "build:watch": "big-eye 'npm run build' -w src/",
+    "prepublish": "npm run build",
+    "test": "xo && ava",
+    "test:watch": "ava --watch"
+  },
+  "dependencies": {},
   "devDependencies": {
     "ava": "^0.19.1",
     "babel-core": "^6.25.0",
@@ -25,14 +42,22 @@
     "uglify-js": "^3.0.19",
     "xo": "^0.18.2"
   },
-  "scripts": {
-	"lint": "xo",
-    "build": "node build/build.js",
-    "build:watch": "big-eye 'npm run build' -w src/",
-    "prepublish": "npm run build",
-    "test": "xo && ava",
-    "test:watch": "ava --watch"
-  },
+  "keywords": [
+    "front-end",
+    "frontend",
+    "ui",
+    "framework",
+    "library",
+    "custom elements",
+    "components",
+    "pug",
+    "pugjs",
+    "template",
+    "model",
+    "view",
+    "viewmodel",
+    "mvvm"
+  ],
   "ava": {
     "require": [
       "babel-register"
@@ -60,6 +85,5 @@
     "ignore": [
       "**/*.{fig,pug}.js"
     ]
-  },
-  "dependencies": {}
+  }
 }
