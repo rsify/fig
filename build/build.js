@@ -6,7 +6,15 @@ const babel = require('babel-core')
 const rollup = require('rollup')
 const uglify = require('uglify-js')
 
+const pkg = require('../package.json')
 const config = require('./config')
+
+const banner = `
+// fig.js v${pkg.version}
+// https://github.com/nikersify/fig
+// released under the MIT license
+
+`.split('\n').slice(1).join('\n')
 
 const tasks = new Listr([
 	{
@@ -48,6 +56,9 @@ const tasks = new Listr([
 			if (!fs.existsSync('./dist')) {
 				await p(fs.mkdir)('./dist')
 			}
+
+			ctx.babelled = banner + ctx.babelled
+			ctx.uglified = banner + ctx.uglified
 
 			await p(fs.writeFile)(config.dest, ctx.babelled)
 			await p(fs.writeFile)(config.dest

@@ -4,16 +4,7 @@ const commonjs = require('rollup-plugin-commonjs')
 const resolve = require('rollup-plugin-node-resolve')
 const strip = require('rollup-plugin-strip')
 
-const pkg = require('../package.json')
-
-const banner = `
-// fig.js v${pkg.version}
-// https://github.com/nikersify/fig
-// released under the MIT license
-`.split('\n').slice(1).join('\n')
-
 module.exports = {
-	banner,
 	context: 'window',
 	dest: 'dist/fig.js',
 	entry: 'src/index.js',
