@@ -76,7 +76,6 @@ function walkElements(element, slotted, components, identifiers, bus, ref) {
 				}
 
 				child['on' + name.slice(1)] = e => {
-					e.preventDefault()
 					fn(e)
 				}
 			}
