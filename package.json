@@ -9,7 +9,7 @@
   "bugs": {
     "url": "https://github.com/nikersify/fig/issues"
   },
-  "main": "dist/fig.js",
+  "main": "dist/fig.min.js",
   "engines": {
     "node": ">=7.6"
   },
@@ -21,7 +21,9 @@
     "test": "xo && ava",
     "test:watch": "ava --watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "nanomorph": "^5.1.2"
+  },
   "devDependencies": {
     "ava": "^0.19.1",
     "babel-core": "^6.25.0",
@@ -34,7 +36,6 @@
     "jsdom": "^11.0.0",
     "listr": "^0.12.0",
     "lodash.isequal": "^4.5.0",
-    "nanomorph": "^5.1.2",
     "rollup": "^0.43.0",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
