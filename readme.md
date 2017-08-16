@@ -26,7 +26,7 @@ Any updates to the installed version of the framework should be done with care, 
 # contributing
 Fork & clone the repo:
 ```bash
-$ git clone https://github.com/<username>/fig`
+$ git clone https://github.com/<username>/fig
 $ cd fig/
 ```
 
