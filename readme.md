@@ -56,6 +56,6 @@ MIT
 
 # related
 
-- [figify](https://github.com/nikersify/fig) - fig.js browserify transform
+- [figify](https://github.com/nikersify/figify) - fig.js browserify transform
 - [fig-compiler](https://github.com/nikersify/fig-compiler) - fig.js component compiler
 - [fig-web](https://github.com/nikersify/fig-web) - fig.js website
